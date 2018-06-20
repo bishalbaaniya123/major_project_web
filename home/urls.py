@@ -4,4 +4,6 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.home),
+    url(r'^data', views.sendjson),
+    url(r'^dataalt', views.sendjson2),
 ]
