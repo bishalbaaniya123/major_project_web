@@ -24,7 +24,7 @@ def sendjson(request):
                 "info3": "This is clean as well"
             },
             {
-                "id": "1",
+                "id": "2",
                 "source": "192.168.1.2",
                 "destination": "192.168.1.4",
                 "protocol": "TCP",
@@ -77,11 +77,25 @@ def sendjson2(request):
     data = {
         "data": [{
             "key1": {"subkey1": "a", "subkey2": "b"},
-            "key2:": {},
+            "key2": {},
             "key3": "hello KEY3"
         }]
     }
     print("using simple retrieve ", data['data'][0]['key3'])
     # dictionary.get("bogus", default_value) using the default_value will set it to that if value is not found
     print("using get ", data.get('data')[0].get('key3', "default"))
+    return JsonResponse(data)
+
+
+def startfunction(request):
+    data = {
+        "msg": "You can start now"
+    }
+    return JsonResponse(data)
+
+
+def endfunction(request):
+    data = {
+        "msg": "Process terminated"
+    }
     return JsonResponse(data)
