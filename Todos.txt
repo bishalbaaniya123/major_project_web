@@ -1,3 +1,4 @@
 1. Table should be initialized but should prompt ("Click Start to initialize the process")
 2. After being initialized, send request after certain intervals (5 secs) to get the data (should only be sent if isStart is true)
 3. After receiving the data, change them to the standard format and print them
+4. Include date

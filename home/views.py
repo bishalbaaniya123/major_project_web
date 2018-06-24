@@ -8,11 +8,7 @@ from django.shortcuts import render
 
 
 def home(request):
-    return render(request, 'home.html')
-
-
-def home2(request):
-    return render(request, 'home2.html')
+    return render(request, 'index.html')
 
 
 def sendjson(request):
@@ -22,34 +18,24 @@ def sendjson(request):
     dest_ip = str(random.randint(0, 255)) + "." + str(random.randint(0, 255)) + "." + str(random.randint(0, 255)) + str(
         random.randint(0, 255))
     protocol = ''.join(random.SystemRandom().choice(string.ascii_uppercase) for _ in range(n))
+    info = ''.join(random.SystemRandom().choice(string.ascii_uppercase) for _ in range(20))
+    info2 = ''.join(random.SystemRandom().choice(string.ascii_uppercase) for _ in range(20))
+    info3 = ''.join(random.SystemRandom().choice(string.ascii_uppercase) for _ in range(20))
     data = {
         "data": [
             {
-                "id": "1",
+                "id": random.randint(0, 10000),
                 "source": source_ip,
                 "destination": dest_ip,
                 "protocol": protocol,
-                "info": "This is clean",
-                "info2": "This is clean too",
-                "info3": "This is clean as well"
+                "date": randomDate("1/1/2017 1:30 PM", "1/1/2018 4:50 AM", random.random()),
+                "info": info,
+                "info2": info2,
+                "info3": info3
             }
         ]
     }
     time.sleep(5)
-    return JsonResponse(data)
-
-
-def sendjson2(request):
-    data = {
-        "data": [{
-            "key1": {"subkey1": "a", "subkey2": "b"},
-            "key2": {},
-            "key3": "hello KEY3"
-        }]
-    }
-    print("using simple retrieve ", data['data'][0]['key3'])
-    # dictionary.get("bogus", default_value) using the default_value will set it to that if value is not found
-    print("using get ", data.get('data')[0].get('key3', "default"))
     return JsonResponse(data)
 
 
@@ -65,3 +51,16 @@ def endfunction(request):
         "msg": "Process terminated"
     }
     return JsonResponse(data)
+
+
+def strTimeProp(start, end, format, prop):
+    stime = time.mktime(time.strptime(start, format))
+    etime = time.mktime(time.strptime(end, format))
+
+    ptime = stime + prop * (etime - stime)
+
+    return time.strftime(format, time.localtime(ptime))
+
+
+def randomDate(start, end, prop):
+    return strTimeProp(start, end, '%m/%d/%Y %I:%M %p', prop)

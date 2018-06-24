@@ -1,0 +1,309 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Network Intrusion Detection System</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- Fonts -->
+    <!-- Lato -->
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="{% static 'css/css-web/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/css-web/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/css-web/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/css-web/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/css-web/main.css' %}">
+    <!-- Responsive Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/css-web/responsive.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.dataTables.min.css' %}"/>
+    <link rel="icon" href="{% static 'images/icon.png' %}">
+
+</head>
+
+<body id="body">
+
+<div id="preloader">
+    <div class="book">
+        <div class="book__page"></div>
+        <div class="book__page"></div>
+        <div class="book__page"></div>
+    </div>
+</div>
+
+<section id="hero-area">
+    <div class="container">
+        <div class="row">
+            {% comment %}<div class="col-md-6 wow zoomIn">
+	                    <div class="block">
+	                        <div class="counter text-center">
+	                            <ul id="countdown_dashboard">
+	                                <li>
+	                                    <div class="dash days_dash">
+	                                        <div class="digit">0</div>
+	                                        <div class="digit">0</div>
+	                                        <div class="digit">0</div>
+	                                        <span class="dash_title">Days</span>
+	                                    </div>
+	                                </li>
+	                                <li>
+	                                    <div class="dash hours_dash">
+	                                        <div class="digit">0</div>
+	                                        <div class="digit">0</div>
+	                                        <span class="dash_title">Hours</span>
+	                                    </div>
+	                                </li>
+	                                <li>
+	                                    <div class="dash minutes_dash">
+	                                        <div class="digit">0</div>
+	                                        <div class="digit">0</div>
+	                                        <span class="dash_title">Minutes</span>
+	                                    </div>
+	                                </li>
+	                                <li>
+	                                    <div class="dash seconds_dash">
+	                                        <div class="digit">0</div>
+	                                        <div class="digit">0</div>
+	                                        <span class="dash_title">Seconds</span>
+	                                    </div>
+	                                </li>
+	                            </ul>
+	                        </div>
+	                    </div>
+	                </div>{% endcomment %}
+            <table id="example" class="display" style="width:100%">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Id</th>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Protocol</th>
+                    <th>Date</th>
+                    <th>Info</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th></th>
+                    <th>Id</th>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Protocol</th>
+                    <th>Date</th>
+                    <th>Info</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div><!-- .row close -->
+    </div><!-- .container close -->
+</section><!-- header close -->
+<div id="snackbar"></div>
+<!-- Js -->
+<script src="{% static 'js/js-web/vendor/modernizr-2.6.2.min.js' %}"></script>
+<script src="{% static 'js/js-web/vendor/jquery-1.10.2.min.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script src="{% static 'js/js-web/jquery.lwtCountdown-1.0.js' %}"></script>
+<script src="{% static 'js/js-web/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/js-web/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/js-web/jquery.validate.min.js' %}"></script>
+<script src="{% static 'js/js-web/jquery.form.js' %}"></script>
+<script src="{% static 'js/js-web/jquery.nav.js' %}"></script>
+<script src="{% static 'js/js-web/jquery.sticky.js' %}"></script>
+<script src="{% static 'js/js-web/plugins.js' %}"></script>
+<script src="{% static 'js/js-web/wow.min.js' %}"></script>
+<script src="{% static 'js/js-web/main.js' %}"></script>
+<script src="{% static 'js/jquery-3.3.1.js' %}"></script>
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'js/jszip.min.js' %}"></script>
+<script src="{% static 'js/pdfmake.min.js' %}"></script>
+<script src="{% static 'js/vfs_fonts.js' %}"></script>
+<script type="text/javascript">
+    /* Formatting function for row details - modify as you need */
+    function format(d) {
+        // `d` is the original data object for the row
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+            '<tr>' +
+            '<td>Info:</td>' +
+            '<td>' + d.info + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Info 2:</td>' +
+            '<td>' + d.info2 + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Info 3:</td>' +
+            '<td>' + d.info3 + '</td>' +
+            '</tr>' +
+            '</table>';
+    }
+
+    var isStart = false;
+    var t = $('#example');
+
+    function clearData() {
+        $('#example').DataTable()
+            .clear()
+            .draw();
+    }
+
+    function addData() {
+        $.ajax({
+            url: '/data',
+            success: function (data) {
+                if (isStart === true) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        $('#example').DataTable().row.add({
+                            "id": data.data[i].id,
+                            "source": data.data[i].source,
+                            "destination": data.data[i].destination,
+                            "protocol": data.data[i].protocol,
+                            "date": data.data[i].date,
+                            "info": data.data[i].info,
+                            "info2": data.data[i].info2,
+                            "info3": data.data[i].info3
+                        }).draw(false);
+                    }
+                }
+            },
+            failure: function (err) {
+                console.log("Internal server error", err);
+            }
+        });
+    }
+
+    function startFunction() {
+        isStart = true;
+        $("#btn-start").addClass("active");
+        $("#btn-stop").removeClass("active");
+        $.ajax({
+            url: '/start',
+            type: 'get', // This is the default though, you don't actually need to always mention it
+            success: function (data) {
+                $("#snackbar").css("background-color", "#379638");
+                $("#snackbar").html("Process Started");
+                showMessage();
+            },
+            failure: function (err) {
+            }
+        });
+        setInterval(addData, 1000);
+    }
+
+    function stopFunction() {
+        isStart = false;
+        $("#btn-start").removeClass("active");
+        $("#btn-stop").addClass("active");
+
+        $.ajax({
+            url: '/end',
+            type: 'get', // This is the default though, you don't actually need to always mention it
+            success: function (data) {
+                $("#snackbar").css("background-color", "#633821");
+                $("#snackbar").html("Process Terminated");
+                showMessage();
+            },
+            failure: function (err) {
+                console.log("Internal server error", err);
+            }
+        });
+
+    }
+
+    function showMessage() {
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () {
+            x.className = x.className.replace("show", "");
+        }, 3000);
+    }
+
+    $(document).ready(function () {
+        $.ajax({
+            url: '/data',
+            type: 'get', // This is the default though, you don't actually need to always mention it
+            success: function (data) {
+            },
+            failure: function (data) {
+            }
+        });
+        //to disable the warning if a certain value does not exist
+        $.fn.dataTableExt.sErrMode = 'throw';
+
+        var table = $('#example').DataTable({
+            "data": "",
+            "columns": [
+                {
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                },
+                {"data": "id"},
+                {"data": "source"},
+                {"data": "destination"},
+                {"data": "protocol"},
+                {"data": "date"},
+                {
+                    "data": 'info', render: function (data, type, row) {
+                    return type === 'export' ?
+                        data.replace(/[$,]/g, '') :
+                        data;
+                }
+                }
+            ],
+            "order": [[1, 'asc']],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {orthogonal: 'export'}
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {orthogonal: 'export'}
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {orthogonal: 'export'}
+                }
+            ]
+        });
+        $(".dt-buttons button").removeClass().addClass("btn btn-default btn-home");
+        $(".dt-buttons").append('<br><a class="btn btn-default btn-home" id="btn-start" onclick="startFunction()" role="button">Start</a>' +
+            '<a class="btn btn-default btn-home active" onclick="stopFunction()" id="btn-stop" role="button">Stop</a>' +
+            '<a class="btn btn-default btn-home" onclick="clearData()" role="button">Clear</a>');
+
+        // Add event listener for opening and closing details
+        $('#example tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+    });
+</script>
+</body>
+</html>
