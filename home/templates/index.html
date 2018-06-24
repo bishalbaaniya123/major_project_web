@@ -49,23 +49,21 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th>Id</th>
-                    <th>Source</th>
-                    <th>Destination</th>
-                    <th>Protocol</th>
-                    <th>Date</th>
-                    <th>Info</th>
+                    <th>Type</th>
+                    <th>Flow Source</th>
+                    <th>Flow Destination</th>
+                    <th>Start Time</th>
+                    <th>Recorded Time</th>
                 </tr>
                 </thead>
                 <tfoot>
                 <tr>
                     <th></th>
-                    <th>Id</th>
-                    <th>Source</th>
-                    <th>Destination</th>
-                    <th>Protocol</th>
-                    <th>Date</th>
-                    <th>Info</th>
+                    <th>Type</th>
+                    <th>Flow Source</th>
+                    <th>Flow Destination</th>
+                    <th>Start Time</th>
+                    <th>Recorded Time</th>
                 </tr>
                 </tfoot>
             </table>
@@ -100,16 +98,16 @@
         // `d` is the original data object for the row
         return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
             '<tr>' +
-            '<td>Info:</td>' +
-            '<td>' + d.info + '</td>' +
+            '<td>Type:</td>' +
+            '<td>' + d.type + '</td>' +
             '</tr>' +
             '<tr>' +
-            '<td>Info 2:</td>' +
-            '<td>' + d.info2 + '</td>' +
+            '<td>Flow Source:</td>' +
+            '<td>' + d.flow_source + '</td>' +
             '</tr>' +
             '<tr>' +
-            '<td>Info 3:</td>' +
-            '<td>' + d.info3 + '</td>' +
+            '<td>Flow Destination:</td>' +
+            '<td>' + d.flow_destination + '</td>' +
             '</tr>' +
             '</table>';
     }
@@ -128,16 +126,13 @@
             url: '/data',
             success: function (data) {
                 if (isStart === true) {
-                    for (var i = 0; i < data.data.length; i++) {
+                    for (var i = 0; i < data.length; i++) {
                         $('#example').DataTable().row.add({
-                            "id": data.data[i].id,
-                            "source": data.data[i].source,
-                            "destination": data.data[i].destination,
-                            "protocol": data.data[i].protocol,
-                            "date": data.data[i].date,
-                            "info": data.data[i].info,
-                            "info2": data.data[i].info2,
-                            "info3": data.data[i].info3
+                            "type": data[i].type,
+                            "flow_source": data[i].flow_source,
+                            "flow_destination": data[i].flow_destination,
+                            "start_time": data[i].start_time,
+                            "recorded_time": data[i].recorded_time
                         }).draw(false);
                     }
                 }
@@ -215,13 +210,12 @@
                     "data": null,
                     "defaultContent": ''
                 },
-                {"data": "id"},
-                {"data": "source"},
-                {"data": "destination"},
-                {"data": "protocol"},
-                {"data": "date"},
+                {"data": "type"},
+                {"data": "flow_source"},
+                {"data": "flow_destination"},
+                {"data": "type"},
                 {
-                    "data": 'info', render: function (data, type, row) {
+                    "data": 'start_time', render: function (data, type, row) {
                     return type === 'export' ?
                         data.replace(/[$,]/g, '') :
                         data;
