@@ -122,8 +122,10 @@
     }
 
     function addData() {
+        var currentepochtime = (new Date).getTime() / 1000;
         $.ajax({
             url: '/data',
+{#                        url: '/get_flows?time='+currentepochtime+'&page_no='+0+'&per_page='+10+'',#}
             success: function (data) {
                 if (isStart === true) {
                     for (var i = 0; i < data.length; i++) {
@@ -131,8 +133,8 @@
                             "type": data[i].type,
                             "flow_source": data[i].flow_source,
                             "flow_destination": data[i].flow_destination,
-                            "start_time": data[i].start_time,
-                            "recorded_time": data[i].recorded_time
+                            "start_time": new Date(data[i].start_time),
+                            "recorded_time": new Date(data[i].recorded_time)
                         }).draw(false);
                     }
                 }
@@ -213,9 +215,9 @@
                 {"data": "type"},
                 {"data": "flow_source"},
                 {"data": "flow_destination"},
-                {"data": "type"},
+                {"data": "start_time"},
                 {
-                    "data": 'start_time', render: function (data, type, row) {
+                    "data": 'recorded_time', render: function (data, type, row) {
                     return type === 'export' ?
                         data.replace(/[$,]/g, '') :
                         data;
