@@ -1,4 +1,8 @@
 # Create your views here.
+import random
+import string
+import time
+
 from django.http import JsonResponse
 from django.shortcuts import render
 
@@ -12,64 +16,26 @@ def home2(request):
 
 
 def sendjson(request):
+    n = 3
+    source_ip = str(random.randint(0, 255)) + "." + str(random.randint(0, 255)) + "." + str(
+        random.randint(0, 255)) + str(random.randint(0, 255))
+    dest_ip = str(random.randint(0, 255)) + "." + str(random.randint(0, 255)) + "." + str(random.randint(0, 255)) + str(
+        random.randint(0, 255))
+    protocol = ''.join(random.SystemRandom().choice(string.ascii_uppercase) for _ in range(n))
     data = {
         "data": [
             {
                 "id": "1",
-                "source": "192.168.1.2",
-                "destination": "192.168.1.4",
-                "protocol": "TCP",
+                "source": source_ip,
+                "destination": dest_ip,
+                "protocol": protocol,
                 "info": "This is clean",
                 "info2": "This is clean too",
                 "info3": "This is clean as well"
-            },
-            {
-                "id": "2",
-                "source": "192.168.1.2",
-                "destination": "192.168.1.4",
-                "protocol": "TCP",
-                "info": "This is clean",
-                "info2": "This is clean too",
-                "info3": "This is clean as well"
-            },
-            {
-                "id": "3",
-                "source": "192.168.1.2",
-                "destination": "192.168.1.4",
-                "protocol": "TCP",
-                "info": "This is clean",
-                "info2": "This is clean too",
-                "info3": "This is clean as well"
-            },
-            {
-                "id": "4",
-                "source": "192.168.1.2",
-                "destination": "192.168.1.4",
-                "protocol": "TCP",
-                "info": "This is clean",
-                "info2": "This is clean too",
-                "info3": "This is clean as well"
-            },
-            {
-                "id": "5",
-                "source": "192.168.1.2",
-                "destination": "192.168.1.4",
-                "protocol": "TCP",
-                "info": "This is clean",
-                "info2": "This is clean too",
-                "info3": "This is clean as well"
-            },
-            {
-                "id": "6",
-                "source": "192.168.1.2",
-                "destination": "192.168.1.4",
-                "protocol": "TCP",
-                "info": "This is clean",
-                "info2": "This is clean too",
-                "info3": "This is clean as well"
-            },
+            }
         ]
     }
+    time.sleep(5)
     return JsonResponse(data)
 
 

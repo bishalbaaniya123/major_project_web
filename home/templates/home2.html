@@ -15,7 +15,8 @@
 <body>
 <button onclick="startFunction()">Start</button>
 <button onclick="stopFunction()">Stop</button>
-<button onclick="addData()">Add</button>
+{#<button onclick="addData()">Add</button>#}
+<button onclick="clearData()" id="clear-data">Clear</button>
 <table id="example" class="display" style="width:100%">
     <thead>
     <tr>
@@ -67,30 +68,36 @@
     var isStart = false;
     var t = $('#example');
 
+    function clearData() {
+        $('#example').DataTable()
+            .clear()
+            .draw();
+    }
+
     function addData() {
-        $.ajax({
-            url: '/data',
-            type: 'get', // This is the default though, you don't actually need to always mention it
-            success: function (data) {
-                console.log("data from addData", data, data.data.length);
-                for (var i = 0; i < data.data.length; i++) {
-                    console.log("from for loop ", data.data[i]);
-                    console.log("from for loop ", data.data[i].source);
-                    console.log("from for loop ", data.data[i].destination);
-                    console.log("from for loop ", data.data[i].protocol);
-                    console.log("from for loop ", data.data[i].info);
-                $('#example').DataTable().row.add({
-                    "source": data.data[i].source,
-                    "destination": data.data[i].destination,
-                    "protocol": data.data[i].protocol,
-                    "info": data.data[i].info
-                }).draw(false);
+        if (isStart === true) {
+            $.ajax({
+                url: '/data',
+                type: 'get', // This is the default though, you don't actually need to always mention it
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        $('#example').DataTable().row.add({
+                            "source": data.data[i].source,
+                            "destination": data.data[i].destination,
+                            "protocol": data.data[i].protocol,
+                            "info": data.data[i].info,
+                            "info2": data.data[i].info2,
+                            "info3": data.data[i].info3
+                        }).draw(false);
+                    }
+                },
+                failure: function (err) {
+                    console.log("Internal server error", err);
                 }
-            },
-            failure: function (err) {
-                console.log("Internal server error", err);
-            }
-        });
+            });
+        } else {
+            console.log("isStart is false ", isStart);
+        }
     }
 
     function startFunction() {
@@ -105,6 +112,7 @@
                 console.log("Internal server error", err);
             }
         });
+        setInterval(addData, 1000);
         console.log("from startFunction", isStart);
     }
 
@@ -115,6 +123,7 @@
             type: 'get', // This is the default though, you don't actually need to always mention it
             success: function (data) {
                 console.log("Process terminated", data);
+                addData();
             },
             failure: function (err) {
                 console.log("Internal server error", err);
@@ -193,6 +202,9 @@
                 tr.addClass('shown');
             }
         });
+        setTimeout(function () {
+            $('#clear-data').click();
+        }, 50);
     });
 </script>
 </html>
