@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^data$', views.sendjson),
     url(r'^start$', views.startfunction),
     url(r'^end$', views.endfunction),
+    url(r'^checkServer$', views.checkServer),
 ]

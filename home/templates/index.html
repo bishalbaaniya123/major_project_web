@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{% static 'css/css-web/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/css-web/owl.carousel.css' %}">
     <link rel="stylesheet" href="{% static 'css/css-web/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/css-web/jquery-ui.css' %}">
     <link rel="stylesheet" href="{% static 'css/css-web/main.css' %}">
     <!-- Responsive Stylesheet -->
     <link rel="stylesheet" href="{% static 'css/css-web/responsive.css' %}">
@@ -92,6 +93,8 @@
 <script src="{% static 'js/jszip.min.js' %}"></script>
 <script src="{% static 'js/pdfmake.min.js' %}"></script>
 <script src="{% static 'js/vfs_fonts.js' %}"></script>
+<script src="{% static 'js/js-web/jquery-ui.js' %}"></script>
+
 <script type="text/javascript">
     /* Formatting function for row details - modify as you need */
     function format(d) {
@@ -121,28 +124,39 @@
             .draw();
     }
 
+    var pageNumber = 0;
+    var currentPageData = 0;
+
     function addData() {
-        var currentepochtime = (new Date).getTime() / 1000;
-        $.ajax({
-            url: '/data',
-{#                        url: '/get_flows?time='+currentepochtime+'&page_no='+0+'&per_page='+10+'',#}
-            success: function (data) {
-                if (isStart === true) {
-                    for (var i = 0; i < data.length; i++) {
-                        $('#example').DataTable().row.add({
-                            "type": data[i].type,
-                            "flow_source": data[i].flow_source,
-                            "flow_destination": data[i].flow_destination,
-                            "start_time": new Date(data[i].start_time),
-                            "recorded_time": new Date(data[i].recorded_time)
-                        }).draw(false);
+        if (isStart === true) {
+            var currentepochtime = (new Date).getTime() / 1000;
+            console.log("this is the whole url", '/get_flows?time=' + currentepochtime + '&page_no=' + pageNumber + '&per_page=' + 10 + '');
+            $.ajax({
+                url: '/data',
+                {#                        url: '/get_flows?time='+currentepochtime+'&page_no='+0+'&per_page='+10+'',#}
+                success: function (data) {
+                    if (isStart === true) {
+                        for (var i = 0; i < data.length; i++) {
+                            currentPageData++;
+                            console.log("currentPageData", currentPageData);
+                            $('#example').DataTable().row.add({
+                                "type": data[i].type,
+                                "flow_source": data[i].flow_source,
+                                "flow_destination": data[i].flow_destination,
+                                "start_time": new Date(data[i].start_time),
+                                "recorded_time": new Date(data[i].recorded_time)
+                            }).draw(false);
+                        }
+                        if (currentPageData % 10 === 0) {
+                            pageNumber++;
+                        }
                     }
+                },
+                failure: function (err) {
+                    console.log("Internal server error", err);
                 }
-            },
-            failure: function (err) {
-                console.log("Internal server error", err);
-            }
-        });
+            });
+        }
     }
 
     function startFunction() {
@@ -160,7 +174,7 @@
             failure: function (err) {
             }
         });
-        setInterval(addData, 1000);
+        addData();
     }
 
     function stopFunction() {
@@ -193,9 +207,15 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: '/data',
+            url: '/checkServer',
             type: 'get', // This is the default though, you don't actually need to always mention it
             success: function (data) {
+                console.log("data from document.ready", data);
+                if (data.isStart === true) {
+                    $("#btn-start").click()
+                } else {
+                    $("#btn-stop").click()
+                }
             },
             failure: function (data) {
             }
@@ -212,17 +232,17 @@
                     "data": null,
                     "defaultContent": ''
                 },
-                {"data": "type"},
-                {"data": "flow_source"},
-                {"data": "flow_destination"},
-                {"data": "start_time"},
                 {
-                    "data": 'recorded_time', render: function (data, type, row) {
+                    "data": 'type', render: function (data, type, row) {
                     return type === 'export' ?
                         data.replace(/[$,]/g, '') :
                         data;
                 }
-                }
+                },
+                {"data": "flow_source"},
+                {"data": "flow_destination"},
+                {"data": "start_time"},
+                {"data": "recorded_time"}
             ],
             "order": [[1, 'asc']],
             dom: 'Bfrtip',
@@ -244,7 +264,13 @@
         $(".dt-buttons button").removeClass().addClass("btn btn-default btn-home");
         $(".dt-buttons").append('<br><a class="btn btn-default btn-home" id="btn-start" onclick="startFunction()" role="button">Start</a>' +
             '<a class="btn btn-default btn-home active" onclick="stopFunction()" id="btn-stop" role="button">Stop</a>' +
-            '<a class="btn btn-default btn-home" onclick="clearData()" role="button">Clear</a>');
+            '<a class="btn btn-default btn-home" onclick="clearData()" role="button">Clear</a>' +
+            '<br/>' +
+            '<br/>' +
+            'Start Date: <input id="datetimepicker-start" type="text" placeholder="Enter Start Date">' +
+            'End Date: <input id="datetimepicker-end" type="text" placeholder="Enter End Date">' +
+            '<button onClick="dateRangePicker()">Go</button>'
+        );
 
         // Add event listener for opening and closing details
         $('#example tbody').on('click', 'td.details-control', function () {
@@ -262,7 +288,52 @@
                 tr.addClass('shown');
             }
         });
+        $('#datetimepicker-start').datepicker();
+        $('#datetimepicker-end').datepicker();
     });
+
+    function dateRangePicker() {
+        var startDate = $("#datetimepicker-start").val();
+        var endDate = $("#datetimepicker-end").val();
+        var timeDiff = (new Date(endDate)).getTime() - (new Date(startDate)).getTime();
+        if (startDate === "" || endDate === "") {
+            console.log("Something is empty");
+        } else if (timeDiff < 0) {
+            console.log("This is invalid");
+        } else {
+            var data = {'startDate': toTimestamp(startDate), 'endDate': toTimestamp(endDate)};
+            console.log("This is valid", data);
+            console.log("startDate:", toTimestamp(startDate), "\nendDate: ", toTimestamp(endDate));
+            $.ajax({
+                url: '/data',
+                method: 'post',
+                data: data,
+                success: function (data) {
+                    if (isStart === true) {
+                        for (var i = 0; i < data.length; i++) {
+                            $('#example').DataTable().row.add({
+                                "type": data[i].type,
+                                "flow_source": data[i].flow_source,
+                                "flow_destination": data[i].flow_destination,
+                                "start_time": new Date(data[i].start_time),
+                                "recorded_time": new Date(data[i].recorded_time)
+                            }).draw(false);
+                        }
+                    }
+                },
+                failure: function (err) {
+                    console.log("Internal server error", err);
+                }
+            });
+
+        }
+    }
+
+    //Working function to convert date like 02/13/2009 23:31:30 to 1234547190 (timestamp)
+    function toTimestamp(strDate) {
+        var datum = Date.parse(strDate);
+        return datum / 1000;
+    }
 </script>
 </body>
 </html>
