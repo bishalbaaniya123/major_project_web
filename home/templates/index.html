@@ -170,11 +170,11 @@
                 $("#snackbar").css("background-color", "#379638");
                 $("#snackbar").html("Process Started");
                 showMessage();
+                addData();
             },
             failure: function (err) {
             }
         });
-        addData();
     }
 
     function stopFunction() {
@@ -184,7 +184,7 @@
 
         $.ajax({
             url: '/end',
-            type: 'get', // This is the default though, you don't actually need to always mention it
+            type: 'get', // This is the default though, you don't actually need to always mention itf
             success: function (data) {
                 $("#snackbar").css("background-color", "#633821");
                 $("#snackbar").html("Process Terminated");
