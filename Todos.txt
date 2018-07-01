@@ -2,3 +2,5 @@
 2. After being initialized, send request after certain intervals (5 secs) to get the data (should only be sent if isStart is true)
 3. After receiving the data, change them to the standard format and print them
 4. Include date
+5. All functions inside startFunction() except stopFunction()
+6. Start the checkServer only after startFunction() is triggered
