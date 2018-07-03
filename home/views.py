@@ -15,77 +15,79 @@ def dateRange(request):
 
 def sendjson(request):
     data = [
-        {
-            "recorded_time": 1529864806.5679667,
-            "flow_source": "192.168.0.105",
-            "flow_destination": "104.120.84.173",
-            "type": "BENIGN",
-            "start_time": 1529864805.376709
-        },
-        {
-            "recorded_time": 1529864806.5679667,
-            "flow_source": "192.168.0.105",
-            "flow_destination": "104.120.84.173",
-            "type": "BENIGN",
-            "start_time": 1529864805.376709
-        },
-        {
-            "recorded_time": 1529864806.5679667,
-            "flow_source": "192.168.0.105",
-            "flow_destination": "104.120.84.173",
-            "type": "BENIGN",
-            "start_time": 1529864805.376709
-        },
-        {
-            "recorded_time": 1529864806.5679667,
-            "flow_source": "192.168.0.105",
-            "flow_destination": "104.120.84.173",
-            "type": "BENIGN",
-            "start_time": 1529864805.376709
-        },
-        {
-            "recorded_time": 1529864806.5679667,
-            "flow_source": "192.168.0.105",
-            "flow_destination": "104.120.84.173",
-            "type": "BENIGN",
-            "start_time": 1529864805.376709
-        },
-        {
-            "recorded_time": 1529864806.5679667,
-            "flow_source": "192.168.0.105",
-            "flow_destination": "104.120.84.173",
-            "type": "BENIGN",
-            "start_time": 1529864805.376709
-        },
-        {
-            "recorded_time": 1529864806.5679667,
-            "flow_source": "192.168.0.105",
-            "flow_destination": "104.120.84.173",
-            "type": "BENIGN",
-            "start_time": 1529864805.376709
-        },
-        {
-            "recorded_time": 1529864806.5679667,
-            "flow_source": "192.168.0.105",
-            "flow_destination": "104.120.84.173",
-            "type": "BENIGN",
-            "start_time": 1529864805.376709
-        },
-        {
-            "recorded_time": 1529864806.5679667,
-            "flow_source": "192.168.0.105",
-            "flow_destination": "104.120.84.173",
-            "type": "BENIGN",
-            "start_time": 1529864805.376709
-        },
-        {
-            "recorded_time": 1529864806.5679667,
-            "flow_source": "192.168.0.105",
-            "flow_destination": "104.120.84.173",
-            "type": "BENIGN",
-            "start_time": 1529864805.376709
-        },
-        6
+        [
+            {
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.105",
+                "flow_destination": "104.120.84.173",
+                "type": "BENIGN",
+                "start_time": 1529864805.376709
+            },
+            {
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.105",
+                "flow_destination": "104.120.84.173",
+                "type": "BENIGN",
+                "start_time": 1529864805.376709
+            },
+            {
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.105",
+                "flow_destination": "104.120.84.173",
+                "type": "BENIGN",
+                "start_time": 1529864805.376709
+            },
+            {
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.105",
+                "flow_destination": "104.120.84.173",
+                "type": "BENIGN",
+                "start_time": 1529864805.376709
+            },
+            {
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.105",
+                "flow_destination": "104.120.84.173",
+                "type": "BENIGN",
+                "start_time": 1529864805.376709
+            },
+            {
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.105",
+                "flow_destination": "104.120.84.173",
+                "type": "BENIGN",
+                "start_time": 1529864805.376709
+            },
+            {
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.105",
+                "flow_destination": "104.120.84.173",
+                "type": "BENIGN",
+                "start_time": 1529864805.376709
+            },
+            {
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.105",
+                "flow_destination": "104.120.84.173",
+                "type": "BENIGN",
+                "start_time": 1529864805.376709
+            },
+            {
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.105",
+                "flow_destination": "104.120.84.173",
+                "type": "BENIGN",
+                "start_time": 1529864805.376709
+            },
+            {
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.105",
+                "flow_destination": "104.120.84.173",
+                "type": "BENIGN",
+                "start_time": 1529864805.376709
+            },
+        ],
+        100
     ]
     return JsonResponse(data, safe=False)
 
@@ -144,15 +146,55 @@ def get_flows(request):
     id_no = id_no + 1
 
     data = [
-        {
-            "id": id_no,
-            "recorded_time": 1529864806.5679667,
-            "flow_source": "192.168.0." + str(random.choice([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])),
-            "flow_destination": "104.120.84.173",
-            "type": random.choice(["Benign", "Malignant"]),
-            "start_time": 1529864805.376709
-        }
+        [
+            {
+                "id": "1",
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.101",
+                "flow_destination": "104.120.84.173",
+                "type": "Malignant",
+                "start_time": 1529864805.376709
+            },
+            {
+                "id": "1",
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.210",
+                "flow_destination": "104.120.84.173",
+                "type": "Malignant",
+                "start_time": 1529864805.376709
+            }
+        ],
+        [
+            {
+                "id": "1",
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.210",
+                "flow_destination": "104.120.84.173",
+                "type": "Benign",
+                "start_time": 1529864805.376709
+            },
+            {
+                "id": "1",
+                "recorded_time": 1529864806.5679667,
+                "flow_source": "192.168.0.210",
+                "flow_destination": "104.120.84.173",
+                "type": "Benign",
+                "start_time": 1529864805.376709
+            }
+        ]
+
     ]
+    return JsonResponse(data, safe=False)
+
+
+def not_count(request):
+    global id_no
+    id_no = id_no + 1
+
+    data = {
+        "count": id_no,
+    }
+
     return JsonResponse(data, safe=False)
 
 
@@ -168,7 +210,7 @@ def get_flows_page1(request):
         {
             "id": id_no,
             "recorded_time": 1529864806.5679667,
-            "flow_source": "192.168.0." + str(random.choice([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])),
+            "flow_source": "192.168.0.210",
             "flow_destination": "104.120.84.173",
             "type": random.choice(["Benign", "Malignant"]),
             "start_time": 1529864805.376709
